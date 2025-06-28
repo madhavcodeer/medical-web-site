@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - MedEase</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+  <style>
+    .details-container {
+      max-width: 480px;
+      margin: 3rem auto;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,128,255,0.13);
+      padding: 2.5rem 2rem 2rem 2rem;
+      position: relative;
+      animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .details-img {
+      width: 100%;
+      max-width: 260px;
+      height: 180px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 1.5rem auto;
+      border-radius: 18px;
+      background: #e0f7fa;
+      box-shadow: 0 2px 8px rgba(0,191,174,0.10);
+    }
+    .details-title {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #0080ff;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .details-price {
+      color: #00bfae;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 1.2rem;
+    }
+    .details-desc {
+      color: #444;
+      font-size: 1.08rem;
+      line-height: 1.6;
+      background: #f8fffc;
+      border-radius: 10px;
+      padding: 1.1rem 1rem;
+      margin-bottom: 1.2rem;
+    }
+    .details-extra {
+      color: #0080ff;
+      font-size: 1.01rem;
+      margin-bottom: 1.5rem;
+      background: #e0f7fa;
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      line-height: 1.5;
+    }
+    .details-actions {
+      display: flex;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .buy-btn {
+      background: linear-gradient(90deg, #00bfae 0%, #0080ff 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 1rem 2.2rem;
+      font-size: 1.13rem;
+      font-weight: 800;
+      box-shadow: 0 4px 18px rgba(0,128,255,0.13);
+      cursor: pointer;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .buy-btn:hover {
+      background: linear-gradient(90deg, #0080ff 0%, #00bfae 100%);
+      transform: scale(1.04);
+    }
+    .back-btn {
+      position: absolute;
+      left: 1.2rem;
+      top: 1.2rem;
+      background: none;
+      border: none;
+      color: #0080ff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s, transform 0.13s;
+      z-index: 10;
+    }
+    .back-btn:hover {
+      background: #e0f7fa;
+      color: #00bfae;
+      transform: translateX(-2px) scale(1.05);
+    }
+    @media (max-width: 600px) {
+      .details-container { padding: 1.2rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="details-container">
+    <button class="back-btn" id="back-btn">&#8592; Back</button>
+    <img class="details-img" id="details-img" src="" alt="Product">
+    <div class="details-title" id="details-title"></div>
+    <div class="details-price" id="details-price"></div>
+    <div class="details-desc" id="details-desc"></div>
+    <div class="details-extra" id="details-extra"></div>
+    <div class="details-actions">
+      <button class="buy-btn" id="buy-btn">Buy Now</button>
+    </div>
+    <div class="reviews-section" id="reviews-section">
+      <h3 class="reviews-title">Customer Reviews</h3>
+      <div class="avg-rating" id="avg-rating"></div>
+      <div class="reviews-list" id="reviews-list"></div>
+      <form id="review-form">
+        <label for="review-rating">Your Rating:</label>
+        <select id="review-rating">
+          <option value="5">★★★★★</option>
+          <option value="4">★★★★☆</option>
+          <option value="3">★★★☆☆</option>
+          <option value="2">★★☆☆☆</option>
+          <option value="1">★☆☆☆☆</option>
+        </select>
+        <input type="text" id="review-text" placeholder="Write a review..." maxlength="120" required>
+        <button type="submit">Submit Review</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    // --- Sample Data (should match cart.js) ---
+    const medicines = [
+      { id: 'med1', name: 'Paracetamol 500mg', desc: 'Pain reliever and fever reducer. Trusted for quick relief.', price: 35, image: 'https://images.unsplash.com/photo-1588776814546-ec7e5b1c8b1b?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Fever, mild pain. Side effects: Rare, may cause nausea. Storage: Cool, dry place.' },
+      { id: 'med2', name: 'Ibuprofen 200mg', desc: 'Reduces inflammation and relieves pain. Fast acting.', price: 45, image: 'https://images.unsplash.com/photo-1516815231350-7d3c4b8b1c8b?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Headache, muscle pain. Side effects: Stomach upset. Storage: Room temperature.' },
+      { id: 'med3', name: 'Amoxicillin 250mg', desc: 'Broad-spectrum antibiotic for bacterial infections.', price: 120, image: 'https://images.unsplash.com/photo-1588776814546-ec7e5b1c8b1b?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Infections. Side effects: Rash, diarrhea. Storage: Cool, dry place.' },
+      { id: 'med4', name: 'Cetirizine 10mg', desc: 'Effective allergy relief. Non-drowsy formula.', price: 30, image: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Allergies. Side effects: Drowsiness (rare). Storage: Room temperature.' },
+      { id: 'med5', name: 'Aspirin 75mg', desc: 'Heart health support and pain relief.', price: 40, image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Heart, pain. Side effects: Stomach upset. Storage: Cool, dry place.' },
+      { id: 'med6', name: 'ORS Sachet', desc: 'Oral rehydration salts for dehydration and recovery.', price: 15, image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Dehydration. Side effects: None. Storage: Room temperature.' },
+      { id: 'med7', name: 'Vitamin C Tablets', desc: 'Boosts immunity and overall health.', price: 60, image: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Immunity. Side effects: None. Storage: Cool, dry place.' },
+      { id: 'med8', name: 'Antacid Chewable', desc: 'Quick relief from acidity and heartburn.', price: 25, image: 'https://images.unsplash.com/photo-1517260911205-8a3bfa0b6b09?auto=format&fit=crop&w=400&q=80', extra: 'Uses: Acidity. Side effects: None. Storage: Room temperature.' }
+    ];
+    const groceries = [
+      { id: 'groc1', name: 'Cotton Swabs', desc: 'Sterile, soft, and safe for medical use.', price: 25, image: 'https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Cleaning wounds, ears. Tips: Use once, dispose safely.' },
+      { id: 'groc2', name: 'Surgical Gloves', desc: 'Disposable, latex-free, and powder-free gloves.', price: 80, image: 'https://images.unsplash.com/photo-1588776814546-ec7e5b1c8b1b?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Medical, cleaning. Tips: Single use only.' },
+      { id: 'groc3', name: 'Face Masks (Pack of 10)', desc: '3-ply, breathable, and comfortable masks.', price: 60, image: 'https://images.unsplash.com/photo-1588776814546-ec7e5b1c8b1b?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Protection from germs. Tips: Change mask daily.' },
+      { id: 'groc4', name: 'Hand Sanitizer 100ml', desc: 'Kills 99.9% germs. Quick-dry, non-sticky formula.', price: 45, image: 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Hand cleaning. Tips: Use before eating.' },
+      { id: 'groc5', name: 'Thermometer', desc: 'Digital, fast, and accurate temperature readings.', price: 150, image: 'https://images.unsplash.com/photo-1516815231350-7d3c4b8b1c8b?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Check fever. Tips: Clean after use.' },
+      { id: 'groc6', name: 'Bandages (Pack of 20)', desc: 'Flexible, breathable, and skin-friendly.', price: 35, image: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Cover wounds. Tips: Change daily.' },
+      { id: 'groc7', name: 'Alcohol Wipes', desc: 'Antiseptic wipes for quick disinfection.', price: 40, image: 'https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Clean surfaces, skin. Tips: Keep sealed.' },
+      { id: 'groc8', name: 'Medical Tape', desc: 'Hypoallergenic, gentle, and strong adhesive.', price: 20, image: 'https://images.unsplash.com/photo-1517260911205-8a3bfa0b6b09?auto=format&fit=crop&w=400&q=80', extra: 'Usage: Secure bandages. Tips: Store in cool place.' }
+    ];
+    // --- Get product by id from query param ---
+    function getProductById(id) {
+      return medicines.find(m => m.id === id) || groceries.find(g => g.id === id);
+    }
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const product = getProductById(id);
+    if (!product) {
+      document.getElementById('details-title').textContent = 'Product Not Found';
+      document.getElementById('details-img').style.display = 'none';
+      document.getElementById('details-price').style.display = 'none';
+      document.getElementById('details-desc').textContent = 'Sorry, we could not find the details for this product.';
+      document.getElementById('details-extra').style.display = 'none';
+      document.getElementById('buy-btn').style.display = 'none';
+    } else {
+      document.getElementById('details-title').textContent = product.name;
+      document.getElementById('details-img').src = product.image;
+      document.getElementById('details-price').textContent = '₹' + product.price;
+      document.getElementById('details-desc').textContent = product.desc;
+      document.getElementById('details-extra').textContent = product.extra;
+    }
+    // --- Buy Now logic: add to cart in localStorage and redirect to main page with cart open ---
+    document.getElementById('buy-btn').onclick = function() {
+      let cart = [];
+      try { cart = JSON.parse(localStorage.getItem('cart')) || []; } catch (e) { cart = []; }
+      const found = cart.find(item => item.id === product.id);
+      if (found) found.qty += 1;
+      else cart.push({...product, qty: 1});
+      localStorage.setItem('cart', JSON.stringify(cart));
+      // Redirect to main page and open cart
+      window.location.href = 'index.html?cart=open';
+    };
+    // --- Back button logic ---
+    document.getElementById('back-btn').onclick = function() {
+      window.location.href = 'index.html';
+    };
+    // --- Recently Viewed logic ---
+    if (product) {
+      let ids = [];
+      try { ids = JSON.parse(localStorage.getItem('recentlyViewed')) || []; } catch (e) { ids = []; }
+      ids = ids.filter(pid => pid !== product.id);
+      ids.unshift(product.id);
+      if (ids.length > 16) ids = ids.slice(0, 16);
+      localStorage.setItem('recentlyViewed', JSON.stringify(ids));
+    }
+    // --- Reviews & Ratings Logic ---
+    function getReviews(id) {
+      let reviews = [];
+      try { reviews = JSON.parse(localStorage.getItem('reviews_' + id)) || []; } catch (e) { reviews = []; }
+      return reviews;
+    }
+    function addReview(id, review) {
+      let reviews = getReviews(id);
+      reviews.unshift(review);
+      if (reviews.length > 12) reviews = reviews.slice(0, 12);
+      localStorage.setItem('reviews_' + id, JSON.stringify(reviews));
+    }
+    function renderReviews(id) {
+      const reviews = getReviews(id);
+      const list = document.getElementById('reviews-list');
+      const avg = document.getElementById('avg-rating');
+      if (!list || !avg) return;
+      list.innerHTML = '';
+      let all = reviews;
+      if (all.length === 0) {
+        // Sample reviews
+        all = [
+          {rating: 5, text: 'Very effective and fast delivery!'},
+          {rating: 4, text: 'Good quality, will buy again.'}
+        ];
+      }
+      const average = (all.reduce((sum, r) => sum + r.rating, 0) / all.length).toFixed(1);
+      avg.innerHTML = `Average Rating: <span style='color:#ffb400;'>${'★'.repeat(Math.round(average))}${'☆'.repeat(5-Math.round(average))}</span> (${average})`;
+      all.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'review-card';
+        div.innerHTML = `<span class='review-rating'>${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span> ${r.text}`;
+        list.appendChild(div);
+      });
+    }
+    if (product) renderReviews(product.id);
+    document.getElementById('review-form').onsubmit = function(e) {
+      e.preventDefault();
+      const rating = parseInt(document.getElementById('review-rating').value);
+      const text = document.getElementById('review-text').value.trim();
+      if (!text) return;
+      addReview(product.id, {rating, text});
+      renderReviews(product.id);
+      document.getElementById('review-text').value = '';
+    };
+  </script>
+</body>
+</html> 

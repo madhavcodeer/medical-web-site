@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedEase - Medical Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div id="cart-status" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  <header class="main-header">
+    <div class="logo"><span class="logo-icon">🩺</span> <span class="logo-text">Med<span class="highlight">Ease</span></span></div>
+    <nav class="nav-bar" role="navigation">
+      <button class="nav-btn active" data-section="home">Home</button>
+      <button class="nav-btn" data-section="medicines">Medicines</button>
+      <button class="nav-btn" data-section="groceries">Groceries</button>
+      <button class="nav-btn cart-btn" id="cart-btn">Cart <span id="cart-count">0</span></button>
+    </nav>
+  </header>
+  <main id="main-content" role="main">
+    <section id="home-section" class="section active">
+      <div class="hero">
+        <h1>Welcome to <span class="highlight">MedEase</span></h1>
+        <p>Your one-stop shop for trusted medicines and medical groceries.<br>Fast delivery. Best prices. 100% genuine.</p>
+        <div class="hero-actions">
+          <button class="hero-btn" data-section="medicines">Shop Medicines</button>
+          <button class="hero-btn" data-section="groceries">Shop Groceries</button>
+        </div>
+      </div>
+      <div class="featured-section">
+        <h2 class="featured-title">🌟 Featured Products</h2>
+        <div class="featured-carousel" id="featured-carousel">
+          <!-- Cards will be rendered by JS -->
+        </div>
+      </div>
+      <div class="recent-section">
+        <h2 class="recent-title">🕑 Recently Viewed</h2>
+        <div class="recent-carousel" id="recent-carousel">
+          <!-- Cards will be rendered by JS -->
+        </div>
+      </div>
+      <div class="wishlist-section">
+        <h2 class="wishlist-title">❤️ Wishlist</h2>
+        <div class="wishlist-carousel" id="wishlist-carousel">
+          <!-- Cards will be rendered by JS -->
+        </div>
+      </div>
+      <div class="orderhistory-section">
+        <h2 class="orderhistory-title">🧾 Order History</h2>
+        <div class="orderhistory-list" id="orderhistory-list">
+          <!-- Orders will be rendered by JS -->
+        </div>
+      </div>
+    </section>
+    <section id="medicines-section" class="section">
+      <button class="back-btn" id="back-from-medicines" title="Back to Home">&#8592; Back</button>
+      <h2>Medicines</h2>
+      <div class="search-bar"><input type="text" id="medicine-search" placeholder="Search medicines..."><div class="search-suggestions" id="medicine-suggestions"></div></div>
+      <div class="product-list" id="medicines-list"></div>
+    </section>
+    <section id="groceries-section" class="section">
+      <button class="back-btn" id="back-from-groceries" title="Back to Home">&#8592; Back</button>
+      <h2>Medical Groceries</h2>
+      <div class="search-bar"><input type="text" id="grocery-search" placeholder="Search groceries..."><div class="search-suggestions" id="grocery-suggestions"></div></div>
+      <div class="product-list" id="groceries-list"></div>
+    </section>
+  </main>
+  <aside class="cart-sidebar" id="cart-sidebar">
+    <button class="close-cart" id="close-cart">&times;</button>
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <div class="cart-total">Total: ₹<span id="cart-total">0</span></div>
+    <div class="delivery-estimator" id="delivery-estimator"></div>
+    <button id="checkout-btn">Checkout</button>
+  </aside>
+  <div class="modal-bg" id="checkout-modal-bg">
+    <div class="modal checkout-modal" role="dialog" aria-modal="true">
+      <button class="close-modal" id="close-checkout-modal" aria-label="Close checkout modal">&times;</button>
+      <h2>Checkout</h2>
+      <form id="checkout-form">
+        <input type="text" placeholder="Name" required>
+        <input type="text" placeholder="Address" required>
+        <input type="tel" placeholder="Phone" required pattern="[0-9]{10}">
+        <div class="delivery-estimator" id="checkout-delivery-estimator"></div>
+        <button type="submit">Place Order</button>
+      </form>
+      <div class="success-msg" id="success-msg">Order placed successfully! 🎉</div>
+    </div>
+  </div>
+  <footer class="main-footer">
+    <div>&copy; 2025 MedEase. All rights reserved.</div>
+  </footer>
+  <div class="accessibility-bar" id="accessibility-bar">
+    <button class="access-btn" id="fontsize-btn" title="Toggle Font Size" aria-label="Toggle Font Size">A</button>
+    <button class="access-btn" id="contrast-btn" title="Toggle High Contrast" aria-label="Toggle High Contrast">☀️</button>
+  </div>
+  <button class="help-fab" id="help-fab">❓ Need Help?</button>
+  <div class="modal-bg" id="help-modal-bg">
+    <div class="modal help-modal" role="dialog" aria-modal="true">
+      <button class="close-modal" id="close-help-modal" aria-label="Close help modal">&times;</button>
+      <h2>Need Help?</h2>
+      <div class="help-content">
+        <h3>Frequently Asked Questions</h3>
+        <ul class="faq-list">
+          <li><strong>How do I order?</strong> Browse products, add to cart, and checkout!</li>
+          <li><strong>Is my data safe?</strong> Yes, we never share your info.</li>
+          <li><strong>How fast is delivery?</strong> Most orders are delivered within 24-48 hours.</li>
+          <li><strong>Can I contact support?</strong> Yes! Email: <a href="mailto:support@medease.com">support@medease.com</a></li>
+        </ul>
+        <h3>Still need help?</h3>
+        <button class="contact-btn" onclick="window.location='mailto:support@medease.com'">Contact Support</button>
+      </div>
+    </div>
+  </div>
+  <script src="cart.js"></script>
+</body>
+</html> 
